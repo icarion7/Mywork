@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import net.otp.SecurityCard_S.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,9 +17,13 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
+	final String DB_NAME = "scDb";
 	public static final int REQUEST_CODE =1001;
+	private static final int MAX_CARD_NUM = 4;
+	String aa;
 	ListView list;
-	ArrayList<Integer> cardinfo_arr = new ArrayList<Integer>();
+	SQLiteDatabase db;
+	ArrayList<String> cardinfo_arr = new ArrayList<String>();
 	ArrayList<String> cardname = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 	@Override
@@ -27,6 +34,8 @@ public class MainActivity extends Activity {
 		Button addnew_btn = (Button) findViewById(R.id.addnew_btn);
 		list = (ListView)findViewById(R.id.cardlist);
 	
+        db = openOrCreateDatabase(DB_NAME, MODE_WORLD_WRITEABLE, null);
+	//	updateDb();
 		
 		
 
@@ -48,10 +57,26 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode,int resultCode, Intent Data){
 		super.onActivityResult(requestCode, resultCode, Data);
 		if(resultCode==1){
-			cardname.add((String)Data.getExtras().getString("name"));
-			cardinfo_arr=(ArrayList<Integer>)Data.getExtras().getIntegerArrayList("card");
-			adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,cardname);
-			list.setAdapter(adapter);
+			cardinfo_arr=(ArrayList<String>)Data.getExtras().getStringArrayList("card");
+			cardname.add(cardinfo_arr.get(0));
+			
+			db.execSQL("CREATE TABLE " + cardinfo_arr.get(0) + "("
+									+ " _id integer PRIMARY KEY AUTOINCREMENT, "
+									+ " num_to_input TEXT,"
+									+ " firstnum TEXT"
+									+ " secondnum TEXT);");
+			//String setdata_db="INSERT INTO "+cardinfo_arr.get(0)+"(_id, num_to_input, firstnum, secondnum) VALUES (null,'"
+			//		+cardinfo_arr.get(i)+"' ,'"+cardinfo_arr.get(i+1)+ "', '"+cardinfo_arr.get(i+2)+"');";
+			//			db.execSQL(setdata_db);
+			db.execSQL( "insert into " + cardinfo_arr.get(0) + "(num_to_input, firstnum, secondnum) values ('John', '20', '010-7788-1234');" );
+						/*	for(int i=1;i<MAX_CARD_NUM ;i=i+3)
+			{
+				String setdata_db="INSERT INTO "+cardinfo_arr.get(0)+"(_id, num_to_input, firstnum, secondnum) VALUES (null,'"
+			+cardinfo_arr.get(i)+"' ,'"+cardinfo_arr.get(i+1)+ "', '"+cardinfo_arr.get(i+2)+"');";
+				db.execSQL(setdata_db);
+			}*/
+			//adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,cardname);
+			//list.setAdapter(adapter);
 			//list.setOnItemClickListener(this);
 		}
 	}
@@ -62,5 +87,42 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	/*public void updateDb() {
+	       items.clear();
+	        String[] columns = { "title" };
+	        Cursor c = db.query(DB_NAME, columns, null, null, null, null, null);
+	        if (c.getCount() <= 0) {
+	          adapter.notifyDataSetChanged();
+	            return;
+	        }
+	       
+	        c.moveToFirst();
+	        while (!c.isAfterLast()) {
+	            String name = c.getString(0);
+	            items.add(name);
+	            c.moveToNext();
+	        }
+	        adapter.notifyDataSetChanged();
+	        c.close();
+	    }*/
+	
+/*	private class DatabaseHelper extends SQLiteOpenHelper{
+
+		public DatabaseHelper(Context context) {
+			super(context, DB_NAME, null, 1);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			// TODO Auto-generated method stub
+			
+		}*/
 
 }

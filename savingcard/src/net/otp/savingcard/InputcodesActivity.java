@@ -27,8 +27,8 @@ public class InputcodesActivity extends Activity {
 	
 	CharSequence text = "완료!";
 	int duration = Toast.LENGTH_SHORT;
-	int firstnum;
-	int secondnum;
+	String firstnum;
+	String secondnum;
 	String cardname;
 
 	@Override
@@ -36,7 +36,7 @@ public class InputcodesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inputcodes);
 
-		final ArrayList<Integer> cardinfo_arr = new ArrayList<Integer>();
+		final ArrayList<String> cardinfo_arr = new ArrayList<String>();
 		final TextView num_to_input = (TextView) findViewById(R.id.num_to_Input);
 		final TextView introduce = (TextView) findViewById(R.id.introduce);
 		final TextView infoItem = (TextView) findViewById(R.id.infoItem);
@@ -54,6 +54,7 @@ public class InputcodesActivity extends Activity {
 				
 				if (secondText.getVisibility() == GONE) {
 					cardname = firstText.getText().toString();
+					cardinfo_arr.add(cardname);
 					introduce.setText("카드의 해당 번호를 입력하세요");
 					infoItem.setText("각각 두자리씩 입력하세요");
 					firstText.setText(null);
@@ -65,14 +66,14 @@ public class InputcodesActivity extends Activity {
 				}
 				int inputnum = Integer.parseInt((String) num_to_input.getText());
 				try {
-					firstnum = Integer.parseInt(firstText.getText().toString());
-					secondnum = Integer.parseInt(secondText.getText()
-							.toString());
+					firstnum = firstText.getText().toString();
+					secondnum = secondText.getText().toString();
 				} catch (Exception e) {
-					firstnum = 1;
-					secondnum = 1;
+					firstnum = "1";
+					secondnum = "1";
 				}
-				cardinfo_arr.add(inputnum);
+				
+				cardinfo_arr.add(String.valueOf(inputnum));
 				cardinfo_arr.add(firstnum);
 				cardinfo_arr.add(secondnum);
 				firstText.setText(null);
@@ -82,7 +83,6 @@ public class InputcodesActivity extends Activity {
 					Context context = getApplicationContext();
 					Intent resultIntent = new Intent();
 					resultIntent.putExtra("card", cardinfo_arr);
-					resultIntent.putExtra("name", cardname);
 					setResult(1, resultIntent);
 					Toast toast = Toast.makeText(context, text, duration);
 					toast.show();
