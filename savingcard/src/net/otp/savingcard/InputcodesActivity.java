@@ -29,7 +29,6 @@ public class InputcodesActivity extends Activity {
 	int duration = Toast.LENGTH_SHORT;
 	int firstnum;
 	int secondnum;
-	int haha;
 	String cardname;
 
 	@Override
