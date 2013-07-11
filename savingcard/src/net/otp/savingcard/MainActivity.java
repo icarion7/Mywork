@@ -63,20 +63,16 @@ public class MainActivity extends Activity {
 			db.execSQL("CREATE TABLE " + cardinfo_arr.get(0) + "("
 									+ " _id integer PRIMARY KEY AUTOINCREMENT, "
 									+ " num_to_input TEXT,"
-									+ " firstnum TEXT"
+									+ " firstnum TEXT,"
 									+ " secondnum TEXT);");
-			//String setdata_db="INSERT INTO "+cardinfo_arr.get(0)+"(_id, num_to_input, firstnum, secondnum) VALUES (null,'"
-			//		+cardinfo_arr.get(i)+"' ,'"+cardinfo_arr.get(i+1)+ "', '"+cardinfo_arr.get(i+2)+"');";
-			//			db.execSQL(setdata_db);
-			db.execSQL( "insert into " + cardinfo_arr.get(0) + "(num_to_input, firstnum, secondnum) values ('John', '20', '010-7788-1234');" );
-						/*	for(int i=1;i<MAX_CARD_NUM ;i=i+3)
+			for(int i=1;i<MAX_CARD_NUM ;i=i+3)
 			{
 				String setdata_db="INSERT INTO "+cardinfo_arr.get(0)+"(_id, num_to_input, firstnum, secondnum) VALUES (null,'"
 			+cardinfo_arr.get(i)+"' ,'"+cardinfo_arr.get(i+1)+ "', '"+cardinfo_arr.get(i+2)+"');";
 				db.execSQL(setdata_db);
-			}*/
-			//adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,cardname);
-			//list.setAdapter(adapter);
+			}
+			adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,cardname);
+			list.setAdapter(adapter);
 			//list.setOnItemClickListener(this);
 		}
 	}
@@ -88,41 +84,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	/*public void updateDb() {
-	       items.clear();
-	        String[] columns = { "title" };
-	        Cursor c = db.query(DB_NAME, columns, null, null, null, null, null);
-	        if (c.getCount() <= 0) {
-	          adapter.notifyDataSetChanged();
-	            return;
-	        }
-	       
-	        c.moveToFirst();
-	        while (!c.isAfterLast()) {
-	            String name = c.getString(0);
-	            items.add(name);
-	            c.moveToNext();
-	        }
-	        adapter.notifyDataSetChanged();
-	        c.close();
-	    }*/
 	
-/*	private class DatabaseHelper extends SQLiteOpenHelper{
-
-		public DatabaseHelper(Context context) {
-			super(context, DB_NAME, null, 1);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
-			
-		}*/
 
 }
